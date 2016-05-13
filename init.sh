@@ -100,7 +100,8 @@ function callOpenToolchainAPI {
     OUTPUT_FILE='draserver.txt'
     ls -l
     ls -l ..
-    dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}"
+    ls -l $SCRIPTDIR/utilities/
+    $SCRIPTDIR/utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}"
     export DRA_PRESENT=$?
     
     
