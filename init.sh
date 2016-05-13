@@ -169,5 +169,5 @@ function installDRADependencies {
 export -f debugme
 export -f dra_commands
 export -f callOpenToolchainAPI
-export -f printDRAMessage
+export -f printInitialDRAMessage
 export -f installDRADependencies
