@@ -125,9 +125,9 @@ function callOpenToolchainAPI {
 
 
 #################################################
-# Print the 'DRA is active' message
+# Print the 'DRA is active' or 'DRA must be added' messages
 #################################################
-function printDRAMessage {
+function printInitialDRAMessage {
     #0 = DRA is present
     #1 = DRA not present or there was an error with the http call (err msg will show)
     #echo $RESULT
@@ -140,7 +140,16 @@ function printDRAMessage {
         echo "Deployment Risk Analytics (DRA) is active."
         echo "**********************************************************************"
         echo -e "${no_color}"
+    else  
+        debugme echo "DRA is NOT present";
 
+        echo -e "${red}"
+        echo "*******************************************************************************************"
+        echo "In order to use this job extension, please add Deployment Risk Analytics to this toolchain."
+        echo "*******************************************************************************************"
+        echo -e "${no_color}"
+
+        exit 1
     fi
 }
 
