@@ -179,9 +179,9 @@ function printInitialDRAMessage {
 # Install DRA dependencies
 #################################################
 function installDRADependencies {
-    npm install grunt-idra3
-    npm install grunt
-    npm install grunt-cli
+    npm install grunt-idra3 --loglevel=silent
+    npm install grunt --loglevel=silent
+    npm install grunt-cli --loglevel=silent
 }
 
 
