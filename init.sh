@@ -98,8 +98,16 @@ function dra_commands {
 #################################################
 function callOpenToolchainAPI {
     OUTPUT_FILE='draserver.txt'
-    $SCRIPTDIR/utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
-    export DRA_PRESENT=$?
+
+    if [ -f $SCRIPTDIR/utilities/dra-check.py ]; then
+        debugme echo "Searching for dra-check in $SCRIPTDIR/utilities"
+        $EXT_DIR/utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
+        export DRA_PRESENT=$?
+    else
+        debugme echo "Searching for dra-check in $EXT_DIR/dra_utilities"
+        $EXT_DIR/dra_utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
+        export DRA_PRESENT=$?
+    fi
     
     
     
