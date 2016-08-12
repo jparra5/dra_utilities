@@ -108,7 +108,9 @@ function callOpenToolchainAPI {
         $EXT_DIR/dra_utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
         export DRA_PRESENT=$?
     fi
-    
+
+
+    export DRA_IS_PRESENT=0
     
     
     #0 = DRA is present
@@ -116,7 +118,7 @@ function callOpenToolchainAPI {
     #echo $RESULT
 
     if [ $DRA_PRESENT -eq 0 ]; then
-
+        export DRA_IS_PRESENT=1
 
         #
         # Retrieve variables from toolchain API
