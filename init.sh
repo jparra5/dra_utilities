@@ -99,25 +99,36 @@ function dra_commands {
 function callOpenToolchainAPI {
     OUTPUT_FILE='draserver.txt'
 
-    if [ -f $SCRIPTDIR/utilities/dra-check.py ]; then
-        debugme echo "Searching for dra-check in $SCRIPTDIR/utilities"
-        $EXT_DIR/utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
-        export DRA_PRESENT=$?
+    if [ -n "${TOOLCHAIN_TOKEN}" ]; then
+        if [ -f $SCRIPTDIR/utilities/dra-check.py ]; then
+            debugme echo "Searching for dra-check in $SCRIPTDIR/utilities"
+            $EXT_DIR/utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
+            export DRA_ERROR_FINDING_BROKER=$?
+        else
+            debugme echo "Searching for dra-check in $EXT_DIR/dra_utilities"
+            $EXT_DIR/dra_utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
+            export DRA_ERROR_FINDING_BROKER=$?
+        fi
     else
-        debugme echo "Searching for dra-check in $EXT_DIR/dra_utilities"
-        $EXT_DIR/dra_utilities/dra-check.py ${PIPELINE_TOOLCHAIN_ID} "${TOOLCHAIN_TOKEN}" "${IDS_PROJECT_NAME}" "${OUTPUT_FILE}" "${IDS_URL}"
-        export DRA_PRESENT=$?
+        #
+        # We are in IDS v1.  Disable DRA.
+        #
+        debugme echo "IDS v1 pipeline.  Deployment Risk Analytics cannot be used."
+        export DRA_ERROR_FINDING_BROKER=1
     fi
 
 
     export DRA_IS_PRESENT=0
     
-    
-    #0 = DRA is present
-    #1 = DRA not present or there was an error with the http call (err msg will show)
+
+    #
+    #  DRA_ERROR_FINDING_BROKER values
+    #
+    #  0 = DRA is present and NO error occurred.
+    #  1 = DRA not present or there was an error with the http call (err msg will show)
     #echo $RESULT
 
-    if [ $DRA_PRESENT -eq 0 ]; then
+    if [ $DRA_ERROR_FINDING_BROKER -eq 0 ]; then
         export DRA_IS_PRESENT=1
 
         #
@@ -159,11 +170,9 @@ function callOpenToolchainAPI {
 # Print the 'DRA is active' or 'DRA must be added' messages
 #################################################
 function printInitialDRAMessage {
-    #0 = DRA is present
-    #1 = DRA not present or there was an error with the http call (err msg will show)
     #echo $RESULT
 
-    if [ $DRA_PRESENT -eq 0 ]; then
+    if [ $DRA_IS_PRESENT -eq 1 ]; then
         debugme echo "DRA is present";
 
         echo -e "${green}"
@@ -189,9 +198,13 @@ function printInitialDRAMessage {
 # Install DRA dependencies
 #################################################
 function installDRADependencies {
-    npm install grunt-idra3 &>/dev/null
-    npm install grunt &>/dev/null
-    npm install grunt-cli &>/dev/null
+    if [ $DRA_IS_PRESENT -eq 1 ]; then
+        debugme echo "Started installing DRA dependencies...";
+        npm install grunt-idra3 &>/dev/null
+        npm install grunt &>/dev/null
+        npm install grunt-cli &>/dev/null
+        debugme echo "Finished installing DRA dependencies.";
+    fi
 }
 
 
