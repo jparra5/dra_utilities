@@ -213,6 +213,7 @@ function installDRADependencies {
             ls -l $EXT_DIR
             pwd
             ls -l
+            grunt --version
             grunt --gruntfile=node_modules/grunt-idra3/idra.js -testResult="/tmp/extension_content/appscan-Weather-App-with-DRA-Production-10.xml" -env="DEV" -runtime="Weather" -stage="codescan" -artifact="appscan-Weather-App-with-DRA-Production-10.xml"
             exit 1
         fi
