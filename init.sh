@@ -205,7 +205,7 @@ function installDRADependencies {
 #        npm install grunt-cli &>/dev/null
         npm install grunt-idra3
         npm install grunt
-        npm install -g grunt-cli
+        sudo npm install -g grunt-cli
         debugme echo "Finished installing DRA dependencies.";
         
         if [ $TEST_FAIL -eq 1 ]; then
