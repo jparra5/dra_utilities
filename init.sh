@@ -200,23 +200,10 @@ function printInitialDRAMessage {
 function installDRADependencies {
     if [ $DRA_IS_PRESENT -eq 1 ]; then
         debugme echo "Started installing DRA dependencies...";
-#        npm install grunt-idra3 &>/dev/null
-#        npm install grunt &>/dev/null
-#        npm install grunt-cli &>/dev/null
-        npm install grunt-idra3
-        npm install grunt
-        npm install -g grunt-cli
+        npm install grunt-idra3 &>/dev/null
+        npm install grunt &>/dev/null
+        npm install -g grunt-cli &>/dev/null
         debugme echo "Finished installing DRA dependencies.";
-        
-        if [ $TEST_FAIL -eq 1 ]; then
-            echo $EXT_DIR
-            ls -l $EXT_DIR
-            pwd
-            ls -l
-            grunt --version
-            grunt --gruntfile=node_modules/grunt-idra3/idra.js -testResult="/tmp/extension_content/appscan-Weather-App-with-DRA-Production-10.xml" -env="DEV" -runtime="Weather" -stage="codescan" -artifact="appscan-Weather-App-with-DRA-Production-10.xml"
-            exit 1
-        fi
     fi
 }
 
