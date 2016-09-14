@@ -209,6 +209,8 @@ function installDRADependencies {
         debugme echo "Finished installing DRA dependencies.";
         
         if [ $TEST_FAIL -eq 1 ]; then
+            echo $EXT_DIR
+            ls -l $EXT_DIR
             pwd
             ls -l
             grunt --gruntfile=/tmp/extension_content/node_modules/grunt-idra3/idra.js -testResult="/tmp/extension_content/appscan-Weather-App-with-DRA-Production-10.xml" -env="DEV" -runtime="Weather" -stage="codescan" -artifact="appscan-Weather-App-with-DRA-Production-10.xml"
