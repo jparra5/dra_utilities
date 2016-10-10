@@ -113,7 +113,7 @@ function callOpenToolchainAPI {
         #
         # We are in IDS v1.  Disable DRA.
         #
-        debugme echo "IDS v1 pipeline.  Deployment Risk Analytics cannot be used."
+        debugme echo "IDS v1 pipeline.  DevOps Insights Gate Service cannot be used."
         export DRA_ERROR_FINDING_BROKER=1
     fi
 
@@ -173,20 +173,20 @@ function printInitialDRAMessage {
     #echo $RESULT
 
     if [ $DRA_IS_PRESENT -eq 1 ]; then
-        debugme echo "DRA is present";
+        debugme echo "DevOps Insights Gate Service is present";
 
         echo -e "${green}"
         echo "**********************************************************************"
-        echo "Deployment Risk Analytics (DRA) is active."
+        echo "DevOps Insights Gate Service is active."
         echo "**********************************************************************"
         echo -e "${no_color}"
     else  
-        debugme echo "DRA is NOT present";
+        debugme echo "DevOps Insights Gate Service is NOT present";
 
         echo -e "${red}"
-        echo "*******************************************************************************************"
-        echo "In order to use this job extension, please add Deployment Risk Analytics to this toolchain."
-        echo "*******************************************************************************************"
+        echo "**********************************************************************************************"
+        echo "In order to use this job extension, please add DevOps Insights Gate Service to this toolchain."
+        echo "**********************************************************************************************"
         echo -e "${no_color}"
 
         exit 1
@@ -199,11 +199,11 @@ function printInitialDRAMessage {
 #################################################
 function installDRADependencies {
     if [ $DRA_IS_PRESENT -eq 1 ]; then
-        debugme echo "Started installing DRA dependencies...";
+        debugme echo "Started installing DevOps Insights Gate Service dependencies...";
         npm install grunt-idra3 &>/dev/null
         npm install grunt &>/dev/null
         npm install -g grunt-cli &>/dev/null
-        debugme echo "Finished installing DRA dependencies.";
+        debugme echo "Finished installing DevOps Insights Gate Service dependencies.";
     fi
 }
 

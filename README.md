@@ -1,2 +1,2 @@
-# DevOps Analytics Utilities
-Shared functions for DRA extensions.
+# DevOps Insights Extensions Utilities
+Shared functions for Devops Insights Gate Service.
