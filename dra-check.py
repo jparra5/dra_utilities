@@ -16,7 +16,7 @@ if len(sys.argv) < 6:
     
 TOOLCHAIN_ID = sys.argv[1]
 BEARER = sys.argv[2]
-PROJECT_NAME = sys.argv[3]
+PROJECT_NAME = unicode(sys.argv[3], encoding='utf-8')
 OUTPUT_FILE = sys.argv[4]
 IDS_URL = sys.argv[5]
 DRA_SERVICE_NAME = 'draservicebroker'
