@@ -200,7 +200,15 @@ function printInitialDRAMessage {
 function installDRADependencies {
     if [ $DRA_IS_PRESENT -eq 1 ]; then
         debugme echo "Started installing DevOps Insights Gate Service dependencies...";
-        npm install grunt-idra3 &>/dev/null
+
+        if [[ $CF_TARGET_URL == *"stage1"* ]]; then
+            debugme echo "Installing grunt-idra3@dev";
+            npm install grunt-idra3@dev &>/dev/null
+        else
+            debugme echo "Installing grunt-idra3";
+            npm install grunt-idra3 &>/dev/null
+        fi
+
         npm install grunt &>/dev/null
         npm install -g grunt-cli &>/dev/null
         debugme echo "Finished installing DevOps Insights Gate Service dependencies.";
