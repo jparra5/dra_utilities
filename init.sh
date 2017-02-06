@@ -31,7 +31,7 @@ debugme() {
 }
 
 set +e
-set +x 
+set +x
 
 
 
@@ -48,44 +48,44 @@ set +x
 function dra_commands {
     echo -e "${no_color}"
     dra_grunt_command=""
-    
+
     if [ -n "$1" ] && [ "$1" != " " ]; then
-    
+
         dra_grunt_command="grunt --gruntfile=node_modules/grunt-idra3/idra.js -tool=$1"
         dra_grunt_command="$dra_grunt_command -testResult=$2"
         dra_grunt_command="$dra_grunt_command -env=$3"
         dra_grunt_command="$dra_grunt_command -stage=$5"
-        
+
         debugme echo -e "dra_grunt_command with tool, log, env, & stage: \n\t$dra_grunt_command"
-        
+
         if [ -n "$4" ] && [ "$4" != " " ]; then
-        
+
             debugme echo -e "\tModule: '$4' is defined and not empty"
             dra_grunt_command="$dra_grunt_command -module=$4"
             debugme echo -e "\tdra_grunt_command: \n\t\t$dra_grunt_command"
-            
+
         else
             debugme echo -e "\tModule: '$4' is not defined or is empty"
             debugme echo -e "${no_color}"
         fi
-        
-        
+
+
         debugme echo -e "FINAL dra_grunt_command: $dra_grunt_command"
         debugme echo -e "${no_color}"
-        
-        
+
+
         eval "$dra_grunt_command --no-color"
         GRUNT_RESULT=$?
-        
+
         debugme echo "GRUNT_RESULT: $GRUNT_RESULT"
-        
+
         if [ $GRUNT_RESULT -ne 0 ]; then
             exit 1
         fi
     else
         debugme echo "Event: '$1' is not defined or is empty"
     fi
-    
+
     echo -e "${no_color}"
 }
 
@@ -113,13 +113,13 @@ function callOpenToolchainAPI {
         #
         # We are in IDS v1.  Disable DRA.
         #
-        debugme echo "IDS v1 pipeline.  DevOps Insights Gate Service cannot be used."
+        debugme echo "IDS v1 pipeline.  DevOps Insights cannot be used."
         export DRA_ERROR_FINDING_BROKER=1
     fi
 
 
     export DRA_IS_PRESENT=0
-    
+
 
     #
     #  DRA_ERROR_FINDING_BROKER values
@@ -144,19 +144,19 @@ function callOpenToolchainAPI {
         #
         if [ -z "${CF_CONTROLLER}" ] || [ "${CF_CONTROLLER}" == "" ]; then
             debugme echo "CF_CONTROLLER environment variable not declared, using '${dradataarray[1]}' from toolchain call";
-            export CF_CONTROLLER=${dradataarray[1]}    
+            export CF_CONTROLLER=${dradataarray[1]}
         fi
         if [ -z "${DRA_SERVER}" ] || [ "${DRA_SERVER}" == "" ]; then
             debugme echo "DRA_SERVER environment variable not declared, using '${dradataarray[2]}' from toolchain call";
-            export DRA_SERVER=${dradataarray[2]}    
+            export DRA_SERVER=${dradataarray[2]}
         fi
         if [ -z "${DLMS_SERVER}" ] || [ "${DLMS_SERVER}" == "" ]; then
             debugme echo "DLMS_SERVER environment variable not declared, using '${dradataarray[3]}' from toolchain call";
-            export DLMS_SERVER=${dradataarray[3]}    
+            export DLMS_SERVER=${dradataarray[3]}
         fi
 
 
-    fi    
+    fi
 }
 
 
@@ -173,19 +173,19 @@ function printInitialDRAMessage {
     #echo $RESULT
 
     if [ $DRA_IS_PRESENT -eq 1 ]; then
-        debugme echo "DevOps Insights Gate Service is present";
+        debugme echo "DevOps Insights is present";
 
         echo -e "${green}"
         echo "**********************************************************************"
-        echo "DevOps Insights Gate Service is active."
+        echo "DevOps Insights is active."
         echo "**********************************************************************"
         echo -e "${no_color}"
-    else  
-        debugme echo "DevOps Insights Gate Service is NOT present";
+    else
+        debugme echo "DevOps Insights is NOT present";
 
         echo -e "${red}"
         echo "**********************************************************************************************"
-        echo "In order to use this job extension, please add DevOps Insights Gate Service to this toolchain."
+        echo "In order to use this job extension, please add DevOps Insights to this toolchain."
         echo "**********************************************************************************************"
         echo -e "${no_color}"
 
@@ -199,7 +199,7 @@ function printInitialDRAMessage {
 #################################################
 function installDRADependencies {
     if [ $DRA_IS_PRESENT -eq 1 ]; then
-        debugme echo "Started installing DevOps Insights Gate Service dependencies...";
+        debugme echo "Started installing DevOps Insights dependencies...";
 
         if [[ $IDS_URL == *"stage1"* ]]; then
             debugme echo "Installing grunt-idra3@dev";
@@ -211,7 +211,7 @@ function installDRADependencies {
 
         npm install grunt &>/dev/null
         npm install -g grunt-cli &>/dev/null
-        debugme echo "Finished installing DevOps Insights Gate Service dependencies.";
+        debugme echo "Finished installing DevOps Insights dependencies.";
     fi
 }
 
