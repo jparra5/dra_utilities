@@ -29,14 +29,16 @@ IDS_URL = urlparse(IDS_URL)
 
 #print IDS_URL.scheme + "://" + IDS_URL.netloc.replace( 'devops', 'devops-api' )
 IDS_URL = IDS_URL.scheme + "://" + IDS_URL.netloc.replace( 'devops', 'devops-api' )
+IDS_URL = IDS_URL + '/v1/toolchains/' + TOOLCHAIN_ID + '?include=metadata'
 #print IDS_URL
 
 try:
-    r = requests.get( IDS_URL + '/v1/toolchains/' + TOOLCHAIN_ID + '?include=metadata', headers={ 'Authorization': BEARER })
+    r = requests.get( IDS_URL, headers={ 'Authorization': BEARER })
     
-    data = r.json()
-    #print data
     if r.status_code == 200:
+        
+        data = r.json()
+        #print data
         
         for items in data[ 'items' ]:
             #print items[ 'name' ]
@@ -60,11 +62,14 @@ try:
                         #DRA_SERVER = mo.group()[:-1]
     else:
         #ERROR response from toolchain API
-        print 'ERROR:', r.status_code, '-', data
+        print 'Error getting services:', r.status_code, 'from', IDS_URL
         #print 'DRA was disabled for this session.'
 except requests.exceptions.RequestException as e:
-    print 'ERROR: ', e
+    print 'Error getting services:', e
     #print 'DRA was disabled for this session.'
+except:
+    print 'Error getting services:', sys.exc_info()[0]
+    raise
     
 
 
