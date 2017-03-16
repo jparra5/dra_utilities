@@ -20,12 +20,14 @@ PROJECT_NAME = unicode(sys.argv[3], encoding='utf-8')
 OUTPUT_FILE = sys.argv[4]
 IDS_URL = sys.argv[5]
 DRA_SERVICE_NAME = 'draservicebroker'
+SLACK_SERVICE_NAME = 'slack' #oneibmcloud/dra-zenhub#1667
 DRA_PRESENT = False
 ORGANIZATION_GUID = ''
 CF_CONTROLLER = ''
 DRA_SERVER = ''
 DLMS_SERVER = ''
 IDS_URL = urlparse(IDS_URL)
+SLACK_WEBHOOK_URL = ''
 
 #print IDS_URL.scheme + "://" + IDS_URL.netloc.replace( 'devops', 'devops-api' )
 IDS_URL = IDS_URL.scheme + "://" + IDS_URL.netloc.replace( 'devops', 'devops-api' )
@@ -60,6 +62,8 @@ try:
                         #urlRegex = re.compile(r'http\w*://\S+?/');
                         #mo = urlRegex.search(services[ 'dashboard_url' ])
                         #DRA_SERVER = mo.group()[:-1]
+                    if services[ 'service_id' ] == SLACK_SERVICE_NAME:
+                        SLACK_WEBHOOK_URL = services[ 'parameters' ][ 'api_token' ]
     else:
         #ERROR response from toolchain API
         print 'Error getting services:', r.status_code, 'from', IDS_URL
@@ -84,6 +88,8 @@ if DRA_PRESENT:
     f.write(DRA_SERVER)
     f.write('\n')
     f.write(DLMS_SERVER)
+    f.write('\n')
+    f.write(SLACK_WEBHOOK_URL)
     f.close()
     exit(0)
 else:

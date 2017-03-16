@@ -94,6 +94,7 @@ function dra_commands {
 # Call the Open Toolchain API to retrieve
 #   Organization ID
 #   DRA Server
+#   Slack webhook URL (if present)
 #   If the DRA Broker is present
 #################################################
 function callOpenToolchainAPI {
@@ -153,6 +154,10 @@ function callOpenToolchainAPI {
         if [ -z "${DLMS_SERVER}" ] || [ "${DLMS_SERVER}" == "" ]; then
             debugme echo "DLMS_SERVER environment variable not declared, using '${dradataarray[3]}' from toolchain call";
             export DLMS_SERVER=${dradataarray[3]}
+        fi
+        if [ -z "${SLACK_WEBHOOK_URL}" ] || [ "${SLACK_WEBHOOK_URL}" == "" ]; then
+            debugme echo "SLACK_WEBHOOK_URL environment variable not declared, using '${dradataarray[4]}' from toolchain call";
+            export SLACK_WEBHOOK_URL=${dradataarray[4]}
         fi
 
 
